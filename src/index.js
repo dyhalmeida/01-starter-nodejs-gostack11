@@ -2,7 +2,9 @@ const express = require('express');
 const { uuid } = require('uuidv4');
 const app = express();
 const projects = [];
+
 app.use(express.json());
+
 app.get('/index', (request, response) => {
   return response.status(200).json({ message: '🚀 Backend started' });
 });
@@ -48,6 +50,7 @@ app.put('/projects/:id', (request, response) => {
   projects[projectIndex] = project;
   return response.json(project);
 });
+
 app.listen(3333, () => {
   console.log('🚀 Backend started');
 });
