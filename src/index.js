@@ -3,6 +3,9 @@ const { uuid } = require('uuidv4');
 const app = express();
 const projects = [];
 app.use(express.json());
+app.get('/index', (request, response) => {
+  return response.status(200).json({ message: '🚀 Backend started' });
+});
 app.post('/projects', (request, response) => {
   const { title, owner } = request.body;
   const project = {
