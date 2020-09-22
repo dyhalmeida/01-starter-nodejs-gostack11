@@ -1,9 +1,27 @@
 const express = require('express');
-const { uuid } = require('uuidv4');
+const { uuid, isUuid } = require('uuidv4');
 const app = express();
 const projects = [];
 
+const log = (request, response, next) => {
+  const { method, url } = request;
+  const logInfo = `${method.toUpperCase()}: ${url}`;
+  console.time(logInfo);
+  next();
+  console.timeEnd(logInfo);
+};
+
+const checkIDProject = (request, response, next) => {
+  const { id } = request.params;
+  if (!isUuid(id)) {
+    return response.status(400).json(['Invalid Project ID']);
+  }
+  return next();
+};
+
 app.use(express.json());
+app.use(log);
+app.use('/projects/:id', checkIDProject);
 
 app.get('/index', (request, response) => {
   return response.status(200).json({ message: '🚀 Backend started' });
